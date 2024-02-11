@@ -12,10 +12,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
-builder.Services.AddDbContext<LogsContext>(options =>
-{
-    options.UseSqlite();
-});
+builder.Services.AddDbContext<LogsContext>();
 
 var app = builder.Build();
 
