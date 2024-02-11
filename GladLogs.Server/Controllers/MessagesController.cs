@@ -26,7 +26,7 @@ namespace GladLogs.Server.Controllers
         [HttpGet("api/messages/{chatname}/{username}")]
         public async Task<GetAllMessagesResponse> GetUserMessagesByChatName( [FromRoute]string chatname, [FromRoute]string username)
         {
-            var messages = _context.Messages.Where(x => (x.User.Name == username) && (x.Chat.Name == chatname));
+            var messages = _context.Messages.Include(x => x.User).Include(x=>x.Chat).Where(x => (x.User.Name == username) && (x.Chat.Name == chatname));
 
 
             //Messages or user not found

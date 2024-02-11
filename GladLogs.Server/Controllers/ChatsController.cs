@@ -21,6 +21,23 @@ namespace GladLogs.Server.Controllers
         {
             return _context.Chats.ToList().ToGetAllChatsResponse();
         }
+
+
+#if DEBUG
+        [HttpPost("api/chats/{chatname}")]
+        public async Task<IActionResult> GetAllChats([FromRoute]string chatname)
+        {
+            _context.Chats.Add(new Chat()
+            {
+                ChatId = Guid.NewGuid(),
+                Name = chatname,
+            });
+
+
+            await _context.SaveChangesAsync();
+            return Ok();
+        }
+#endif
     }
 
 }
