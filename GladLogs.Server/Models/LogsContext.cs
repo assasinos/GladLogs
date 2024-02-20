@@ -25,21 +25,6 @@ namespace GladLogs.Server.Models
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         => options.UseSqlite($"Data Source={DbPath}");
 
-/*        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<User>()
-                .HasMany(x => x.Messages)
-                .WithOne(x => x.User)
-                .HasForeignKey(x => x.UserID)
-                .HasPrincipalKey(x=>x.UserID);
-
-
-            modelBuilder.Entity<Chat>()
-                .HasMany(x => x.Messages)
-                .WithOne(x => x.Chat)
-                .HasForeignKey(x => x.ChatId)
-                .HasPrincipalKey(x => x.ChatId);
-        }*/
 
     }
 

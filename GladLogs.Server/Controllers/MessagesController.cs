@@ -51,7 +51,7 @@ namespace GladLogs.Server.Controllers
         /// <param name="offset">Number of weeks to offset</param>
         /// <returns>User's messages from a chat in week selected by offset </returns>
         [HttpGet("api/messages/{chatname}/{username}/{offset}")]
-        public async Task<GetAllMessagesResponse> GetUserMessagesByChatName([FromRoute] string chatname, [FromRoute] string username, [FromRoute] int offset)
+        public async Task<GetAllMessagesResponse> GetUserMessagesByChatName([FromRoute] string chatname, [FromRoute] string username, [FromRoute] uint offset)
         {
             var start = DateTime.UtcNow.Date.Subtract(TimeSpan.FromDays(offset*7));
             var end = start.Subtract(TimeSpan.FromDays(7));
@@ -73,7 +73,7 @@ namespace GladLogs.Server.Controllers
         }
 
 
-        [HttpGet("api/messages/period/{chatname}/{username}")]
+        [HttpGet("d {chatname}/{username}")]
         public async Task<DateTime> GetOldestMessageTimeStamp([FromRoute] string chatname, [FromRoute] string username)
         {
 
