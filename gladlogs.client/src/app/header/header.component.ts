@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 
 
+
 interface GetAllChatsResponse{
   chatnames: ChatResponse[]; 
 }
@@ -14,7 +15,7 @@ interface ChatResponse{
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrl: './header.component.css'
+  styleUrl: './header.component.css',
 })
 export class HeaderComponent implements OnInit {
 
@@ -36,4 +37,27 @@ export class HeaderComponent implements OnInit {
     );
 
   }
+
+
+  onSearch() {
+    //Check if username supplied
+    //If not, return
+    const username = (document.getElementById('username') as HTMLInputElement).value;
+    if(username === '' ){
+      return;
+    }
+
+    //Get Chatname
+    const chatname = (document.getElementById('chat') as HTMLInputElement).value;
+    if(chatname === ''){
+      return;
+    }
+
+
+    //Goto the userlogs page
+    window.location.href = `/logs/${chatname}/${username}`;
+
+  }
+
+
 }
