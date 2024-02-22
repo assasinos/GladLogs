@@ -4,6 +4,6 @@ export interface GetAllMessages {
 
 export interface Message{
 
-    Message :string; 
-    Timestamp :Date;
+    message :string; 
+    timestamp :Date;
 }

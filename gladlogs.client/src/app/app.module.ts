@@ -8,6 +8,7 @@ import { HomeComponent } from './home/home.component';
 import { LogsComponent } from './logs/logs.component';
 import { HeaderComponent } from './header/header.component';
 import { MessagesComponent } from './messages/messages.component';
+import { MessageComponent } from './message/message.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { MessagesComponent } from './messages/messages.component';
     HomeComponent,
     LogsComponent,
     HeaderComponent,
-    MessagesComponent
+    MessagesComponent,
+    MessageComponent
   ],
   imports: [
     BrowserModule, HttpClientModule,

@@ -1,0 +1,14 @@
+
+<div class="flex flex-col gap-3 bg-gray-950 p-4 w-full">
+
+    @if (messages.messages !== null ) {
+        @for (message of messages.messages; track $index) 
+        {
+            <div class="flex flex-row gap-2">
+                <span class="font-thin text-sm">{{GetDate(message.timestamp)}}</span>
+                <span>{{username}}:</span>
+                <span>{{message.message}}</span>
+            </div>
+        }
+    }
+</div>
