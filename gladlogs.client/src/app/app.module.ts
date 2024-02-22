@@ -7,13 +7,15 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { LogsComponent } from './logs/logs.component';
 import { HeaderComponent } from './header/header.component';
+import { MessagesComponent } from './messages/messages.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     LogsComponent,
-    HeaderComponent
+    HeaderComponent,
+    MessagesComponent
   ],
   imports: [
     BrowserModule, HttpClientModule,
