@@ -6,6 +6,7 @@ import { GetAllMessages } from '../../types/GetMessages';
 import { MessageComponent } from '../message/message.component';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent } from '../app.component';
+import { DataSharingService } from '../services/data-sharing.service';
 
 @Component({
   selector: 'app-logs',
@@ -67,16 +68,18 @@ export class LogsComponent implements OnInit {
     return `${startDate.getDate()}/${startDate.getMonth()} - ${endDate.getDate()}/${endDate.getMonth()}`;
   }
 
+
   username: string = '';
   chatname: string = '';
 
   activeWeeks: GetAllActivityWeekResponses = { weeks: [] };
 
-  constructor(private http: HttpClient, private route: ActivatedRoute, private ref : ApplicationRef) {}
+  constructor(private http: HttpClient, private route: ActivatedRoute, private ref : ApplicationRef, private dataService: DataSharingService) {}
   ngOnInit(): void {
     //Get params
     this.route.params.subscribe({
       next: (value) => {
+        this.dataService.updateValues(value['chat'], value['nickname']);
         this.chatname = value['chat'];
         this.username = value['nickname'];
       },
@@ -92,6 +95,7 @@ export class LogsComponent implements OnInit {
       .subscribe({
         next: (result) => {
           this.activeWeeks = result;
+          this.activeWeeks.weeks.reverse();
         },
         error: (error) => {
           console.error(error);

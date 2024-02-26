@@ -1,5 +1,8 @@
-<div class="mx-auto w-full max-w-screen-xl p-1 py-3 lg:py-5 flex items-center justify-center gap-3 flex-col text-gray-600 dark:text-white">
+<div class="mx-auto w-full max-w-screen-xl p-1 py-3 lg:py-5 flex items-center justify-center gap-3 flex-col text-white">
 
+
+
+@if(activeWeeks.weeks.length > 0){
     @for (week of activeWeeks.weeks; track $index)
     {
     <!-- Load messages from week button -->
@@ -9,4 +12,11 @@
             Load Messages {{GetDate(week.offset)}}</button>
     </div>
     }
+}
+@else
+{
+    <div class="w-full">
+        <p class="text-center text-2xl text-red-600">User <span class="italic font-bold">{{username}}</span> not found</p>
+    </div>
+}
 </div>

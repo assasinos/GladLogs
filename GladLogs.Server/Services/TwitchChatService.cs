@@ -23,14 +23,14 @@ namespace GladLogs.Server.Services
         }
 
 
-        TwitchClient client;
+        TwitchClient? client;
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             var credentials = new ConnectionCredentials(_options.Value.twitchUsername,_options.Value.twitchOAuthToken);
             var clientOptions = new ClientOptions
             {
-                MessagesAllowedInPeriod = 1000,
+                MessagesAllowedInPeriod = 10000,
                 ThrottlingPeriod = TimeSpan.FromSeconds(30)
             };
             WebSocketClient customClient = new WebSocketClient(clientOptions);

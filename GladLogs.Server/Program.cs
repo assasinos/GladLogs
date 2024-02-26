@@ -16,7 +16,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<LogsContext>();
 
 builder.Services.Configure<TwitchChatOptions>(builder.Configuration.GetSection("Twitch"));
-//builder.Services.AddHostedService<TwitchChatService>();
+builder.Services.AddHostedService<TwitchChatService>();
 
 
 var app = builder.Build();

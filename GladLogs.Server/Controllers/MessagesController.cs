@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using GladLogs.Server.Models;
 using GladLogs.Server.Mapping;
 using GladLogs.Server.Contracts.Response;
+using GladLogs.Server.Helpers;
 
 namespace GladLogs.Server.Controllers
 {
@@ -53,40 +54,26 @@ namespace GladLogs.Server.Controllers
         [HttpGet("api/messages/{chatname}/{username}/{offset}")]
         public async Task<GetAllMessagesResponse> GetUserMessagesByChatName([FromRoute] string chatname, [FromRoute] string username, [FromRoute] uint offset)
         {
-            var start = DateTime.UtcNow.Date.Subtract(TimeSpan.FromDays(offset*7));
-            var end = start.Subtract(TimeSpan.FromDays(7));
-            var messages = _context.Messages
-                .Where(x => (x.User.Name == username) && (x.Chat.Name == chatname))
-                .Where(x => x.TimeStamp <= start && x.TimeStamp > end);
+
+            var week = DateTime.UtcNow.GetWeekNumber() -offset;
+
+
+            var messages = await _context.Messages
+                .Where(x => (x.User.Name == username) && (x.Chat.Name == chatname)).ToListAsync();
+
+            var weekMessages = messages.Where(x => x.TimeStamp.GetWeekNumber() == week).ToList();
 
             
 
 
             //Messages or user not found
-            if (messages is null || !messages.Any())
+            if (weekMessages is null || !weekMessages.Any())
             {
                 return new GetAllMessagesResponse();
             }
 
 
-            return messages.ToList().ToGetAllMessagesResponse();
-        }
-
-
-        [HttpGet("d {chatname}/{username}")]
-        public async Task<DateTime> GetOldestMessageTimeStamp([FromRoute] string chatname, [FromRoute] string username)
-        {
-
-            var time = await _context.Messages.Where(x => (x.User.Name == username) && (x.Chat.Name == chatname)).OrderByDescending(x => x.TimeStamp).FirstOrDefaultAsync();
-
-            if (time is null || time == default)
-            {
-                return DateTime.UtcNow.Date;
-            }
-
-            return time.TimeStamp.Date;
-
-
+            return weekMessages.ToList().ToGetAllMessagesResponse();
         }
 
 

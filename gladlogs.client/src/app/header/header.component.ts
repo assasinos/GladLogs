@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { DataSharingService } from '../services/data-sharing.service';
 
 
 
@@ -17,23 +19,37 @@ interface ChatResponse{
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit  {
+  username: string = '';
+  chatname: string = '';
 
   public chats: GetAllChatsResponse = {chatnames:[]};
 
   ngOnInit() {
+    this.dataService.chatname$.subscribe(value => this.chatname = value);
+    this.dataService.username$.subscribe(value => this.username = value);
+
     this.getChatNames();
+
+    onsubmit = this.onsubmit;
+
+
   }
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private route: ActivatedRoute, private dataService: DataSharingService) {
+    
+  }
   getChatNames(){
 
     this.http.get<GetAllChatsResponse>('/api/chats').subscribe(
-      (result) => {
-        this.chats = result;
-      },
-      (error) => {
-        console.error(error);
+      {
+        next: (value) => {
+          this.chats = value;
+        },
+        error: (error) => {
+          console.error(error);
+        }
       }
+      
     );
 
   }
@@ -57,6 +73,12 @@ export class HeaderComponent implements OnInit {
     //Goto the userlogs page
     window.location.href = `/logs/${chatname}/${username}`;
 
+  }
+
+  onsubmit(e : SubmitEvent){
+    e.preventDefault();
+    console.log("ez")
+    this.onSearch();
   }
 
 

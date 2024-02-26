@@ -1,33 +1,54 @@
 
-<header class="p-4 md:pb-4 md:space-y-4 dark:bg-gray-800">
+<header class="p-4 md:pb-4 md:space-y-4 bg-gray-800">
+  <form>
     <div class="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4">
         <div class="hidden md:flex items-center space-x-2"><span
                 class="relative flex shrink-0 overflow-hidden rounded-full w-10 h-10"></span>
-            <h1 class="text-2xl font-bold tracking-tighter text-white">Chat</h1>
+            <h1 class="text-2xl font-bold tracking-tighter text-white"><a [routerLink]="['/']">chat</a></h1>
         </div>
         <div class="flex-1 min-w-0">
-            <div class="rounded-lg bg-gray-100 dark:bg-gray-700 w-full overflow-hidden">
-                <div class="flex items-center space-x-2 h-10 px-3"><label
+            <div class="rounded-lg bg-gray-700 w-full">
+                <div class="flex items-center space-x-2 h-10 pl-3 w-full"><label
                         class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 0 text-white"
                         for="username">
                         Username
-                    </label><input
-                        class="flex h-10 w-full rounded-md border border-input px-3 py-2 ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 flex-1 text-sm bg-transparent text-white"
-                        id="username" placeholder="Enter username"></div>
+                    </label>
+                    @if (username) 
+                    {
+                      <input
+                      class="flex h-10 w-full rounded-md border border-input px-3 py-2 ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 flex-1 text-sm bg-transparent text-white"
+                      id="username" placeholder="Enter username" value="{{username}}"/>
+                    }
+                    @else {
+                      <input
+                      class="flex h-10 w-full rounded-md border border-input px-3 py-2 ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 flex-1 text-sm bg-transparent text-white"
+                      id="username" placeholder="Enter username" />
+                    }
+
+</div>
             </div>
         </div>
         <div class="flex-1 min-w-0">
-            <div class="rounded-lg bg-gray-100 dark:bg-gray-700 w-full overflow-hidden">
-              <div class="flex items-center space-x-2 h-10 px-3">
+            <div class="rounded-lg bg-gray-700 w-full overflow-hidden">
+              <div class="flex items-center space-x-2 h-10 pl-3">
                 <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 0 text-white"
                        for="chat">
                   Chat
                 </label>
-                <select id="chat" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <select id="chat" class=" flex h-10 w-full rounded-md border border-input px-3 py-2 ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 flex-1 text-sm bg-gray-700 text-white">
 
                   @for (item of chats.chatnames; track $index) 
                   {
+                    @if (item.chatname == chatname) {
+                      <option value="{{item.chatname}}" selected>{{item.chatname}} </option>
+
+                    }
+                    @else
+                    {
                     <option value="{{item.chatname}}">{{item.chatname}}</option>
+
+                    }
+                  
 
                   }
                 </select>
@@ -35,8 +56,8 @@
             </div>
         </div>
         <div>
-          <button (click)="onSearch()" class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800">
-            <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+          <button (click)="onSearch()" class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium  rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white text-white focus:ring-4 focus:outline-none  focus:ring-cyan-800">
+            <span class="relative px-5 py-2.5 transition-all ease-in duration-75  bg-gray-900 rounded-md group-hover:bg-opacity-0">
               Search
             </span>
             </button>
@@ -44,4 +65,5 @@
 
 
     </div>
+  </form>
 </header>
