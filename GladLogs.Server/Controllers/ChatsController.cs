@@ -17,7 +17,7 @@ namespace GladLogs.Server.Controllers
 
 
         
-        [HttpGet("api/chats")]
+        [HttpGet("api/logs/chats")]
         public async Task<GetAllChatsResponse> GetAllChats()
         {
             return _context.Chats.ToList().ToGetAllChatsResponse();
@@ -27,7 +27,7 @@ namespace GladLogs.Server.Controllers
 
 
 #if DEBUG
-        [HttpPost("api/chats/{chatname}")]
+        [HttpPost("api/logs/chats/{chatname}")]
         public async Task<IActionResult> AddNewChat([FromRoute]string chatname)
         {
             _context.Chats.Add(new Chat()

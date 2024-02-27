@@ -26,7 +26,7 @@ namespace GladLogs.Server.Controllers
         
 
         //This returns all messages, so it's slow, and will be only used in raw display
-        [HttpGet("api/messages/{chatname}/{username}")]
+        [HttpGet("api/logs/messages/{chatname}/{username}")]
         public async Task<GetAllMessagesResponse> GetUserMessagesByChatName( [FromRoute]string chatname, [FromRoute]string username)
         {
             var messages = _context.Messages.Include(x => x.User).Include(x=>x.Chat).Where(x => (x.User.Name == username) && (x.Chat.Name == chatname));
@@ -51,7 +51,7 @@ namespace GladLogs.Server.Controllers
         /// <param name="username">Username</param>
         /// <param name="offset">Number of weeks to offset</param>
         /// <returns>User's messages from a chat in week selected by offset </returns>
-        [HttpGet("api/messages/{chatname}/{username}/{offset}")]
+        [HttpGet("api/logs/messages/{chatname}/{username}/{offset}")]
         public async Task<GetAllMessagesResponse> GetUserMessagesByChatName([FromRoute] string chatname, [FromRoute] string username, [FromRoute] uint offset)
         {
 

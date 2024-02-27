@@ -20,7 +20,7 @@ namespace GladLogs.Server.Controllers
             _context = context;
         }
 
-        [HttpGet("api/user/{chatname}/{username}")]
+        [HttpGet("api/logs/user/{chatname}/{username}")]
         public async Task<GetAllActivityWeekResponses> GetUserActivityWeeks([FromRoute] string chatname, [FromRoute] string username)
         {
             if (chatname == string.Empty || username == string.Empty)

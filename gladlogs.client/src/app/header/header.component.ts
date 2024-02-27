@@ -40,7 +40,7 @@ export class HeaderComponent implements OnInit  {
   }
   getChatNames(){
 
-    this.http.get<GetAllChatsResponse>('/api/chats').subscribe(
+    this.http.get<GetAllChatsResponse>('/api/logs/chats').subscribe(
       {
         next: (value) => {
           this.chats = value;
@@ -77,7 +77,6 @@ export class HeaderComponent implements OnInit  {
 
   onsubmit(e : SubmitEvent){
     e.preventDefault();
-    console.log("ez")
     this.onSearch();
   }
 
