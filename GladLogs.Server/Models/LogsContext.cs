@@ -17,9 +17,19 @@ namespace GladLogs.Server.Models
 
         public LogsContext()
         {
-            var folder = Environment.SpecialFolder.LocalApplicationData;
-            var path = Environment.GetFolderPath(folder);
-            DbPath = Path.Join(path, "logs.db");
+            if (OperatingSystem.IsLinux())
+            {
+                var folder = Environment.SpecialFolder.Personal;
+                var path = Environment.GetFolderPath(folder);
+                DbPath = Path.Join(path, "twitchLogs","logs.db");
+            }
+            else
+            {
+                var folder = Environment.SpecialFolder.LocalApplicationData;
+                var path = Environment.GetFolderPath(folder);
+                DbPath = Path.Join(path, "logs.db");
+            }
+
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
