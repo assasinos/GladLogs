@@ -54,11 +54,11 @@ namespace GladLogs.Server.Services
 
             while (!stoppingToken.IsCancellationRequested)
             {
+                await Task.Delay(TimeSpan.FromSeconds(10), stoppingToken);
 
                 scope = _serviceProvider.CreateScope();
 
                 context = scope.ServiceProvider.GetRequiredService<LogsContext>();
-                await Task.Delay(TimeSpan.FromSeconds(10), stoppingToken);
 
                 //Add all stored Messages
                 var messages = _messages.ToList();

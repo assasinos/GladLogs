@@ -19,9 +19,8 @@ namespace GladLogs.Server.Models
         {
             if (OperatingSystem.IsLinux())
             {
-                var folder = Environment.SpecialFolder.Personal;
-                var path = Environment.GetFolderPath(folder);
-                DbPath = Path.Join(path, "twitchLogs","logs.db");
+                var path = Environment.GetEnvironmentVariable("HOME");
+                DbPath = Path.Join(path, ".twitchLogs","logs.db");
             }
             else
             {
