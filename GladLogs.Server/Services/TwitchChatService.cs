@@ -61,11 +61,12 @@ namespace GladLogs.Server.Services
                 await Task.Delay(TimeSpan.FromSeconds(10), stoppingToken);
 
                 //Add all stored Messages
-                await context.Messages.AddRangeAsync(_messages);
+                var messages = _messages.ToList();
+                await context.Messages.AddRangeAsync(messages);
 
                 await context.SaveChangesAsync();
                 //Clear messages
-                _messages.Clear();
+                _messages.RemoveRange(0,messages.Count);
                 scope.Dispose();
 
             }
