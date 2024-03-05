@@ -1,5 +1,7 @@
-﻿using GladLogs.Server.Contracts.Response;
+﻿using GladLogs.Server.Consts;
+using GladLogs.Server.Contracts.Response;
 using GladLogs.Server.Mapping;
+using GladLogs.Server.Middleware;
 using GladLogs.Server.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,10 +11,11 @@ namespace GladLogs.Server.Controllers
     public class ChatsController : ControllerBase
     {
         private readonly LogsContext _context;
-
-        public ChatsController( LogsContext context)
+        private readonly IApiKeyValidation _apiKeyValidation;
+        public ChatsController( LogsContext context, IApiKeyValidation apiKeyValidation)
         {
             _context = context;
+            _apiKeyValidation = apiKeyValidation;
         }
 
 
@@ -24,12 +27,23 @@ namespace GladLogs.Server.Controllers
         }
 
 
-
-
-#if DEBUG
         [HttpPost("api/logs/chats/{chatname}")]
-        public async Task<IActionResult> AddNewChat([FromRoute]string chatname)
+        public async Task<IActionResult> AddNewChat([FromRoute] string chatname)
         {
+            //Auth
+            var apiKey = Request.Headers[ApiKeyConsts.xApiKeyHeader];
+
+            if (string.IsNullOrWhiteSpace(apiKey))
+            {
+                return BadRequest();
+            }
+
+            if (!_apiKeyValidation.IsValidApiKey(apiKey!))
+            {
+                return Unauthorized();
+            }
+
+
             _context.Chats.Add(new Chat()
             {
                 ChatId = Guid.NewGuid(),
@@ -40,7 +54,6 @@ namespace GladLogs.Server.Controllers
             await _context.SaveChangesAsync();
             return Ok();
         }
-#endif
     }
 
 }

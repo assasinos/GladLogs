@@ -15,19 +15,21 @@ namespace GladLogs.Server.Models
 
         //I will use SQLITE
 
-        public LogsContext()
+
+
+
+        public LogsContext(IConfiguration configuration)
         {
-            if (OperatingSystem.IsLinux())
+
+            var configDbPath = configuration["dbPath"];
+            if (string.IsNullOrWhiteSpace(configDbPath))
             {
-                var path = Environment.GetEnvironmentVariable("HOME");
-                DbPath = Path.Join(path, ".twitchLogs","logs.db");
+                DbPath = Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "logs.db");
+                return;
             }
-            else
-            {
-                var folder = Environment.SpecialFolder.LocalApplicationData;
-                var path = Environment.GetFolderPath(folder);
-                DbPath = Path.Join(path, "logs.db");
-            }
+
+            DbPath = Path.Join(configDbPath, "logs.db");
+                
 
         }
 

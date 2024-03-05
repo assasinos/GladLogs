@@ -1,6 +1,11 @@
+using GladLogs.Server.Auth;
+using GladLogs.Server.Consts;
+using GladLogs.Server.Middleware;
 using GladLogs.Server.Models;
 using GladLogs.Server.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +28,8 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Services.AddTransient<IApiKeyValidation, ApiKeyValidation>();
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
@@ -35,6 +42,7 @@ builder.Services.AddDbContext<LogsContext>();
 builder.Services.Configure<TwitchChatOptions>(builder.Configuration.GetSection("Twitch"));
 builder.Services.AddHostedService<TwitchChatService>();
 
+var apiKey = builder.Configuration[ApiKeyConsts.ApiKey] ?? throw new InvalidOperationException("Invalid Api Key");
 
 var app = builder.Build();
 
@@ -47,6 +55,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+
 
 
 app.UseCors(corsName);
